@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import rocket from '@/assets/icons/icons8-rocket.svg';
-import open from '@/assets/icons/icons8-open-50.svg';
-// import click from '@/assets/icons/icons8-webpage-click.svg';
+// import rocket from '../assets/icons/icons8-rocket.svg';
+import open from '../assets/icons/icons8-open-50.svg';
+// import click from '../assets/icons/icons8-webpage-click.svg';
 
 function Cards({ title, content }) {
     return (
