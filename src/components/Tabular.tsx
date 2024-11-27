@@ -16,21 +16,22 @@ import {
 } from "@/components/ui/card";
 import { useNavigate, useLocation } from 'react-router-dom';
 
-interface CampaignData {
-  Campaign: string;
-  Deployed: number;
-  Opens: number;
-  Clicks: number;
-  "Open Rate": number;
-  "Click Rate": number;
+// Define the structure of the data
+interface CampaignRow {
+  Campaign: string; // Assuming Campaign is a date in string format
+  Deployed: number; // Deployed count
+  Opens: number;    // Opens count
+  "Open Rate": number; // Open rate as a percentage
+  Clicks: number;    // Clicks count
+  "Click Rate": number; // Click rate as a percentage
 }
 
 const Tabular: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  // Retrieve data from location state
-  const campaignData = location.state?.csvData || [];
+
+  // Retrieve data from location state with typing
+  const campaignData: CampaignRow[] = location.state?.csvData || [];
 
   return (
     <>
