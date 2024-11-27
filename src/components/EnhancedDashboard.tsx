@@ -23,6 +23,7 @@ import open from "../assets/icons/icons8-open-50.svg";
 import click from "../assets/icons/icons8-webpage-click.svg";
 import { UserButton } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom";
 
 
 export interface CampaignData {
@@ -51,6 +52,8 @@ const EnhancedDashboard: React.FC = () => {
   const [clickRateData, setClickRateData] = useState<ChartData[]>([]);
   const [openRateData, setOpenRateData] = useState<ChartData[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const csvUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSYrj2z57Srvn2alEy2K9o1hlUisNZH-AKD4uUeRJtzMNxJ5mEsup1nkYN_1nfnj1FasmzVrXAgJrbQ/pub?output=csv";
@@ -254,61 +257,72 @@ const EnhancedDashboard: React.FC = () => {
           ))}
         </section>
 
+        <div className="flex justify-end mb-6">
+          <Button 
+            onClick={() => navigate('/analytics', { state: { csvData } })}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white"
+          >
+            View Full Analytics
+          </Button>
+        </div>
+
         {/* Charts */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
+        {[
             {
-              title: "Click Rate Analysis",
-              data: clickRateData,
-              dataKey: "rate",
-              color: "#8884d8",
+            title: "Click Rate Analysis",
+            data: clickRateData,
+            dataKey: "rate",
+            color: "#8884d8",
+            yAxisDomain: [0, 15], // Adjust the domain for Click Rate Analysis
             },
             {
-              title: "Open Rate Analysis",
-              data: openRateData,
-              dataKey: "rate",
-              color: "#82ca9d",
+            title: "Open Rate Analysis",
+            data: openRateData,
+            dataKey: "rate",
+            color: "#82ca9d",
+            yAxisDomain: [0, 100], // Keep the domain for Open Rate Analysis unchanged
             },
-          ].map((chart, idx) => (
+        ].map((chart, idx) => (
             <Card key={idx} className="p-6">
-              <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold text-gray-700">{chart.title}</h3>
                 <Select>
-                  <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Last 6 Months" />
-                  </SelectTrigger>
-                  <SelectContent>
+                </SelectTrigger>
+                <SelectContent>
                     {["Last 6 Months", "Last 3 Months", "Last Year"].map((option) => (
-                      <SelectItem key={option} value={option}>
+                    <SelectItem key={option} value={option}>
                         {option}
-                      </SelectItem>
+                    </SelectItem>
                     ))}
-                  </SelectContent>
+                </SelectContent>
                 </Select>
-              </div>
-              <ResponsiveContainer width="100%" height={300}>
+            </div>
+            <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={chart.data}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="name" />
-                  <YAxis 
-                    domain={[0, 100]}
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="name" />
+                <YAxis
+                    domain={chart.yAxisDomain} // Use the chart-specific domain
                     tickFormatter={(value) => `${value}%`}
-                  />
-                  <Tooltip 
+                />
+                <Tooltip
                     formatter={(value) => [`${value}%`]}
                     labelFormatter={(label) => `Date: ${label}`}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey={chart.dataKey} 
-                    stroke={chart.color} 
+                />
+                <Line
+                    type="monotone"
+                    dataKey={chart.dataKey}
+                    stroke={chart.color}
                     strokeWidth={2}
                     dot={{ r: 4 }}
-                  />
+                />
                 </LineChart>
-              </ResponsiveContainer>
+            </ResponsiveContainer>
             </Card>
-          ))}
+        ))}
         </section>
       </main>
     </div>

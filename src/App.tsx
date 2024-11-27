@@ -3,6 +3,7 @@ import { SignedIn, SignedOut, SignIn } from '@clerk/clerk-react';
 import EnhancedDashboard from './components/EnhancedDashboard';
 import LandingPage from './components/LandingPage';
 import PrivateRoute from './components/PrivateRoute';
+import Tabular from './components/Tabular';
 
 const App = () => {
   return (
@@ -42,6 +43,9 @@ const App = () => {
             </PrivateRoute>
           }
         />
+
+        <Route path="/analytics" element={<Tabular />} />
+
 
         {/* Catch all - redirect to landing */}
         <Route path="*" element={<Navigate to="/" replace />} />
