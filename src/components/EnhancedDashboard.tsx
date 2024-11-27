@@ -17,11 +17,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Bell, Settings } from "lucide-react";
+import { Bell, Settings,  Menu, X } from "lucide-react";
 import rocket from "../assets/icons/icons8-rocket.svg";
 import open from "../assets/icons/icons8-open-50.svg";
 import click from "../assets/icons/icons8-webpage-click.svg";
 import { UserButton } from "@clerk/clerk-react";
+import { Button } from "@/components/ui/button"
 
 
 export interface CampaignData {
@@ -49,6 +50,7 @@ const EnhancedDashboard: React.FC = () => {
   const [csvData, setCsvData] = useState<CampaignData[]>([]);
   const [clickRateData, setClickRateData] = useState<ChartData[]>([]);
   const [openRateData, setOpenRateData] = useState<ChartData[]>([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const csvUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSYrj2z57Srvn2alEy2K9o1hlUisNZH-AKD4uUeRJtzMNxJ5mEsup1nkYN_1nfnj1FasmzVrXAgJrbQ/pub?output=csv";
@@ -171,15 +173,65 @@ const EnhancedDashboard: React.FC = () => {
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Header */}
       <header className="bg-white shadow-sm mb-8 rounded-lg">
-        <div className="flex justify-between items-center p-4 max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold text-indigo-600">Inagiffy Dashboard</h1>
-          <div className="flex items-center space-x-4">
+      <div className="px-4 max-w-7xl mx-auto">
+        {/* Desktop Header */}
+        <div className="flex justify-between items-center h-16">
+          <h1 className="text-xl md:text-2xl font-bold text-indigo-600">
+            Inagiffy Dashboard
+          </h1>
+          
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-6 w-6 text-gray-500" />
+            ) : (
+              <Menu className="h-6 w-6 text-gray-500" />
+            )}
+          </button>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-4">
+            <Button variant="outline" className="whitespace-nowrap">
+              <a 
+                href="https://docs.google.com/spreadsheets/d/1lDVbLYXPc6FKLq1eo46XPFlbirfECD6hsbi6A7ZmxWU/edit?gid=1791494283#gid=1791494283" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm"
+              >
+                Spreadsheet
+              </a>
+            </Button>
             <Bell size={20} className="text-gray-500 hover:text-gray-700 cursor-pointer" />
             <Settings size={20} className="text-gray-500 hover:text-gray-700 cursor-pointer" />
             <UserButton />
           </div>
         </div>
-      </header>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden py-4 space-y-4">
+            <Button variant="outline" className="w-full justify-center">
+              <a 
+                href="https://docs.google.com/spreadsheets/d/1lDVbLYXPc6FKLq1eo46XPFlbirfECD6hsbi6A7ZmxWU/edit?gid=1791494283#gid=1791494283" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm"
+              >
+                Spreadsheet
+              </a>
+            </Button>
+            <div className="flex justify-center space-x-6">
+              <Bell size={20} className="text-gray-500 hover:text-gray-700 cursor-pointer" />
+              <Settings size={20} className="text-gray-500 hover:text-gray-700 cursor-pointer" />
+              <UserButton />
+            </div>
+          </div>
+        )}
+      </div>
+    </header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto">
