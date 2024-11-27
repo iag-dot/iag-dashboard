@@ -3,7 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import open from '../assets/icons/icons8-open-50.svg';
 // import click from '../assets/icons/icons8-webpage-click.svg';
 
-function Cards({ title, content }) {
+type CardsProps = {
+    title: string;
+    content: string;
+  };
+
+function Cards({ title, content }: CardsProps) {
     return (
         <Card className="w-1/4 h-40 p-4 max-md:w-5/6">
             <div className="flex items-center justify-between h-8 mb-7">
